@@ -12,15 +12,4 @@ report_outputs/
 *.pth
 *.ckpt
 *.zip
-*.aux
 *.log
-*.out
-*.toc
-*.nav
-*.snm
-*.vrb
-*.fdb_latexmk
-*.fls
-*.synctex.gz
-*.bbl
-*.blg

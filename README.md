@@ -4,7 +4,7 @@ A PyTorch machine vision project by **Qifeng Liu**, completed at Université Par
 
 The main models are trained from scratch. The project combines a compact CNN, class-specific GANs starting from random noise, manually curated synthetic samples, and a residual CycleGAN with PatchGAN discriminators.
 
-[Browse the notebook](notebooks/cnn-and-gan.ipynb) · [Report](docs/report.pdf) · [Slides](docs/slides.pdf) · [Complete executed notebook download](https://github.com/flmaple1121/cnn-gan-cow-horse/releases/tag/v1.0.0)
+[Browse the notebook](notebooks/cnn-and-gan.ipynb) · [Complete executed notebook download](https://github.com/flmaple1121/cnn-gan-cow-horse/releases/download/v1.0.0/cnn-gan-original-executed-notebook.zip)
 
 ## Recorded results
 
@@ -34,8 +34,7 @@ The improvement is **1.22 percentage points**, or **one additional correct predi
 | [`Newdata/`](Newdata/) | All 164 course-provided input images, label mapping, and SHA-256 manifest |
 | [`selected/`](selected/) | The exact 12 manually selected synthetic horses used for the final comparison |
 | [`results/`](results/) | Recorded CSV tables, training curves, GAN previews, candidate exports, and translation images |
-| [`docs/`](docs/) | Public report/slides, LaTeX sources, presentation notes, and generated assets |
-| [`scripts/`](scripts/) | Notebook code export and report-asset generation |
+| [`scripts/`](scripts/) | Notebook code export |
 
 ## Run locally
 
@@ -68,18 +67,9 @@ The default budgets are 15 CNN epochs per seed, 1,000 GAN epochs per class, and 
 
 ```bash
 python scripts/export_code.py       # regenerate src/cnn_and_gan.py after notebook edits
-python scripts/build_report_assets.py
 ```
 
-To rebuild the PDFs with an installed LaTeX distribution:
-
-```bash
-cd docs
-latexmk -pdf -interaction=nonstopmode -halt-on-error report.tex
-latexmk -pdf -interaction=nonstopmode -halt-on-error slides.tex
-```
-
-The [complete executed notebook](https://github.com/flmaple1121/cnn-gan-cow-horse/releases/tag/v1.0.0) preserves the original embedded images. The GitHub-friendly copy externalizes them and adjusts local path discovery. Saved outputs were not produced by a new full training run during publication. No trained model checkpoints were found in the project files; running inference with trained models requires retraining.
+The [complete executed notebook](https://github.com/flmaple1121/cnn-gan-cow-horse/releases/download/v1.0.0/cnn-gan-original-executed-notebook.zip) preserves the original embedded images. The GitHub-friendly copy externalizes them and adjusts local path discovery. Saved outputs were not produced by a new full training run during publication. No trained model checkpoints were found in the project files; running inference with trained models requires retraining.
 
 ## Data and attribution
 
