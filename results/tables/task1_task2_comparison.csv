@@ -1,0 +1,3 @@
+experiment,overall_accuracy,balanced_accuracy,cow_accuracy,horse_accuracy,selected_cows,selected_horses
+Task 1 simple CNN ensemble,0.6585365853658537,0.6585365853658537,0.7560975609756098,0.5609756097560976,0,0
+Task 2 manual image augmentation,0.6707317073170732,0.6707317073170731,0.7560975609756098,0.5853658536585366,0,12

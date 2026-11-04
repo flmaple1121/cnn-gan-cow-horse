@@ -1,0 +1,25 @@
+# 10-Minute Speaking Notes
+
+## Slide 1 - Title
+Hello, my name is Qifeng LIU. In this project, I worked on three connected tasks on a cow-horse image dataset: CNN classification, GAN-based data augmentation, and unpaired style transfer. The central question was how to improve classification under a very small-data setting while staying fully from scratch for the main models. My final result is that a compact CNN already works reasonably well, and the best improvement comes from carefully selected asymmetric augmentation of the horse class.
+
+## Slide 2 - Dataset and Project Objective
+The dataset is small but challenging. There are 82 training images and 82 test images, with 41 cows and 41 horses in each split. The important difficulty is not class imbalance, because the classes are numerically balanced. The real difficulty is that the training set contains only one instance per class, while the test set contains unseen instances under the same viewpoint grid. So the project is really about instance-level generalization rather than memorizing a balanced dataset.
+
+## Slide 3 - Task 1: CNN Design
+For Task 1, I used a compact convolutional neural network trained from scratch. The model has three convolutional blocks with the pattern Conv, BatchNorm, ReLU, and MaxPool, followed by global average pooling and a small fully connected head from 64 features to 32 hidden units and then to 2 classes. This is a small MLP in practice, but I describe it as a fully connected head because its role is only final classification, not feature extraction. I kept the model small because the dataset is tiny and overfitting is the main risk. I used a class-weighted cross-entropy loss with a cow-to-horse weight ratio of one to five, because horse recognition was the weaker side. Finally, I trained the same model with three seeds and averaged the logits, which is a real ensemble at the image level.
+
+## Slide 4 - Task 1: Results and Main Takeaway
+The final Task 1 ensemble reaches 65.85 percent overall accuracy. Cow accuracy is 75.61 percent, while horse accuracy is 56.10 percent. This already shows that the compact from-scratch CNN is viable on this dataset. The main takeaway from Task 1 is that the strongest design choices were not model complexity, but the horse-sensitive cross-entropy weighting and the logit-level three-seed ensemble. The remaining weakness was clearly horse recognition, and that directly motivated Task 2.
+
+## Slide 5 - Task 2: Pure-Noise GAN Architecture
+For Task 2, the GAN must generate images from pure noise, so the generator starts from a latent vector of dimension 100. I project this vector into a small spatial feature map and then progressively increase the resolution with Upsample plus Conv2d blocks. I used this upsampling design because it is simple, from scratch, and less prone to checkerboard artifacts than transposed convolution. The discriminator uses stride-2 convolution blocks to reduce the image resolution while judging whether the image is real or generated. I trained one GAN for cows and one GAN for horses separately, because the two visual distributions behaved differently.
+
+## Slide 6 - Task 2: Final Augmentation Result
+The final successful augmentation was intentionally asymmetric. I selected zero synthetic cows and twelve synthetic horses from the generated candidate bank. This was justified because cow accuracy was already strong, while horse accuracy remained the bottleneck. The selected images were used as normal additional training samples. With this setup, the final accuracy improved from 65.85 percent to 67.07 percent, and the gain came entirely from the horse class, which increased from 56.10 percent to 58.54 percent. I also show here that a pretrained discriminator attempt was rejected because it produced visually failed horse generations.
+
+## Slide 7 - Task 3: CycleGAN-Style Translation
+For Task 3, I implemented a compact CycleGAN-style system. The generators use an encoder, a residual bottleneck, and a decoder, while the discriminators follow the PatchGAN principle and focus on local realism. The training objective combines adversarial loss, cycle-consistency loss, and identity loss, and I also used a replay buffer to stabilize discriminator updates. This task is evaluated qualitatively rather than with a classifier metric. The results show plausible bidirectional style transfer, and in many cases the silhouette and viewpoint are preserved while the appearance changes.
+
+## Slide 8 - Conclusion
+To conclude, the best system in this project was not the most complex one. For Task 1, the key was a compact from-scratch CNN with class-weighted cross-entropy, using a cow-to-horse weight ratio of one to five, plus a three-seed logit ensemble. For Task 2, the key was not generic balanced augmentation, but targeted asymmetric augmentation of the weaker horse class using manually selected GAN images. This raised the final accuracy to 67.07 percent. Overall, the project shows that on a tiny dataset, careful problem-specific engineering choices matter more than simply making the models heavier.
